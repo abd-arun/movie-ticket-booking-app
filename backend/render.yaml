@@ -1,8 +1,16 @@
 services:
   - type: web
-    name: MovieTicketBackend
+    name: movie-ticket-backend
     env: node
-    buildCommand: npm install
-    startCommand: npm start
-    plan: free
+    buildCommand: "npm install"
+    startCommand: "npm start"
     branch: main
+    envVars:
+      - key: DB_HOST
+        value: "127.0.0.1"  # This is the host for your MySQL database
+      - key: DB_USER
+        value: "root"  # Your MySQL username
+      - key: DB_PASSWORD
+        value: "%40madhumitha143"  # URL encoded password
+      - key: DB_NAME
+        value: "ticket_booking"  # Your database name
