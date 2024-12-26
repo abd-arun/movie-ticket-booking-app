@@ -8,6 +8,11 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+// Root Route (Optional)
+app.get('/', (req, res) => {
+  res.send('Welcome to the Movie Ticket Booking API!');
+});
+
 // Routes
 app.use('/api/tickets', ticketRoutes);
 
