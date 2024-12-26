@@ -7,14 +7,12 @@ services:
     branch: main
     envVars:
       - key: DB_HOST
-<<<<<<< HEAD
-        value: 127.0.0.1
-=======
-        value: "movie-ticket-booking-app-1.mysql.render.com"  # Correct host
->>>>>>> e805fee31f9ce79fd4fe31e701e833350b261910
+        value: "127.0.0.1"
       - key: DB_USER
         value: "root"
       - key: DB_PASSWORD
-        value: "%40madhumitha143"  # URL encoded password
+        value: "%40madhumitha143"  # URL encoded password (@ becomes %40)
       - key: DB_NAME
         value: "ticket_booking"
+      - key: DB_PORT
+        value: "3306"
