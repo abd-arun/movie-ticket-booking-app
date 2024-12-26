@@ -7,10 +7,10 @@ services:
     branch: main
     envVars:
       - key: DB_HOST
-        value: "127.0.0.1"  # This is the host for your MySQL database
+        value: "movie-ticket-booking-app-1.mysql.render.com"  # Correct host
       - key: DB_USER
-        value: "root"  # Your MySQL username
+        value: "root"
       - key: DB_PASSWORD
         value: "%40madhumitha143"  # URL encoded password
       - key: DB_NAME
-        value: "ticket_booking"  # Your database name
+        value: "ticket_booking"
