@@ -1,13 +1,18 @@
 const { Sequelize, DataTypes } = require('sequelize');
 
-// Update the credentials here
-const sequelize = new Sequelize('ticket_booking', 'root', '@madhumitha143', {
-  host: '127.0.0.1',
-  dialect: 'mysql',
-  port: 3306, // Optional, but useful if the default port is different
-});
+// Use environment variables for the database configuration
+const sequelize = new Sequelize(
+  process.env.DB_NAME,       // Database name
+  process.env.DB_USER,       // Database user
+  process.env.DB_PASSWORD,   // Database password
+  {
+    host: process.env.DB_HOST,  // Database host (e.g., Render DB host)
+    dialect: 'mysql',
+    port: process.env.DB_PORT,  // Database port (e.g., 3306)
+  }
+);
 
-// Ticket model definition (as you already have)
+// Ticket model definition
 const Ticket = sequelize.define('Ticket', {
   movieName: {
     type: DataTypes.STRING,
