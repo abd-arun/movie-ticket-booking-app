@@ -1,8 +1,9 @@
+require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
+const mongoose = require('mongoose');
 const ticketRoutes = require('./routes/ticketRoutes');
-const mysql = require('mysql2');
-require('dotenv').config(); // Ensure environment variables are loaded
+
 
 const app = express();
 
@@ -15,24 +16,16 @@ app.get('/', (req, res) => {
   res.send('Welcome to the Movie Ticket Booking API!');
 });
 
-// Test the DB connection before starting the server
-const connection = mysql.createConnection({
-  host: process.env.DB_HOST,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_NAME,
-  port: process.env.DB_PORT,
-});
 
-connection.connect((err) => {
-  if (err) {
-    console.error('Error connecting to the database:', err.stack);
+// Connect to MongoDB
+mongoose
+  .connect(process.env.DB_URI) // No need for useNewUrlParser or useUnifiedTopology
+  .then(() => console.log('Connected to MongoDB!'))
+  .catch((err) => {
+    console.error('Error connecting to MongoDB:', err);
     process.exit(1); // Exit the process if connection fails
-  } else {
-    console.log('Connected to the database!');
-  }
-  connection.end(); // Close the connection after test
-});
+  });
+
 
 // Routes
 app.use('/api/tickets', ticketRoutes);

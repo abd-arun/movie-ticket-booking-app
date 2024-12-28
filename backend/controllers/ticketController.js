@@ -1,36 +1,40 @@
 const Ticket = require('../models/ticketModel');
 
-// Controller to book a ticket
-exports.bookTicket = (req, res) => {
-  const { movieName, time, seat, name, phone, email, paymentMethod } = req.body;
-
-  Ticket.create({
-    movieName,
-    time,
-    seat,
-    name,
-    phone,
-    email,
-    paymentMethod,
-  })
-    .then((ticket) => res.status(201).json({ ticket }))
-    .catch((err) => res.status(500).json({ message: 'Error booking ticket', error: err }));
-};
+exports.bookTicket = async (req, res) => {
+    try {
+      // Log incoming request body for debugging
+      console.log('Received data:', req.body);
+  
+      const { movieName, time, seat, name, phone, email, paymentMethod } = req.body;
+      const ticket = new Ticket({ movieName, time, seat, name, phone, email, paymentMethod });
+      
+      // Save the ticket
+      await ticket.save();
+      res.status(201).json({ ticket });
+    } catch (err) {
+      console.error('Error booking ticket:', err);  // Log the error for better visibility
+      res.status(500).json({ message: 'Error booking ticket', error: err });
+    }
+  };
+  
 
 // Controller to get all tickets
-exports.getTickets = (req, res) => {
-  Ticket.findAll()
-    .then((tickets) => res.status(200).json(tickets))
-    .catch((err) => res.status(500).json({ message: 'Error fetching tickets', error: err }));
+exports.getTickets = async (req, res) => {
+  try {
+    const tickets = await Ticket.find();
+    res.status(200).json(tickets);
+  } catch (err) {
+    res.status(500).json({ message: 'Error fetching tickets', error: err });
+  }
 };
 
 // Controller to delete a ticket
-exports.deleteTicket = (req, res) => {
-  const { id } = req.params;
-
-  Ticket.destroy({
-    where: { id },
-  })
-    .then(() => res.status(200).json({ message: 'Ticket deleted successfully' }))
-    .catch((err) => res.status(500).json({ message: 'Error deleting ticket', error: err }));
+exports.deleteTicket = async (req, res) => {
+  try {
+    const { id } = req.params;
+    await Ticket.findByIdAndDelete(id);
+    res.status(200).json({ message: 'Ticket deleted successfully' });
+  } catch (err) {
+    res.status(500).json({ message: 'Error deleting ticket', error: err });
+  }
 };

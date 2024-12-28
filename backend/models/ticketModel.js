@@ -1,68 +1,17 @@
-const { Sequelize, DataTypes } = require('sequelize');
-require('dotenv').config();
+const mongoose = require('mongoose');
 
-// Setup Sequelize connection to MySQL
-const sequelize = new Sequelize(
-  process.env.DB_NAME,
-  process.env.DB_USER,
-  process.env.DB_PASSWORD,
-  {
-    host: process.env.DB_HOST,
-    dialect: 'mysql',
-    port: process.env.DB_PORT,
-  }
-);
-
-// Define the Ticket model
-const Ticket = sequelize.define('Ticket', {
-  movieName: {
-    type: DataTypes.STRING,
-    allowNull: false,
-    field: 'movie_name',
-  },
-  time: {
-    type: DataTypes.TIME,
-    allowNull: false,
-    field: 'show_time',
-  },
-  seat: {
-    type: DataTypes.STRING,
-    allowNull: false,
-    field: 'seat_number',
-  },
-  name: {
-    type: DataTypes.STRING,
-    allowNull: false,
-    field: 'customer_name',
-  },
-  phone: {
-    type: DataTypes.STRING,
-    allowNull: false,
-    field: 'phone_number',
-  },
-  email: {
-    type: DataTypes.STRING,
-    allowNull: false,
-    field: 'email',
-  },
-  paymentMethod: {
-    type: DataTypes.STRING,
-    allowNull: false,
-    field: 'payment_method',
-  }
+const ticketSchema = new mongoose.Schema({
+  movieName: { type: String, required: true },
+  time: { type: String, required: true },
+  seat: { type: String, required: true },
+  name: { type: String, required: true },
+  phone: { type: String, required: true },
+  email: { type: String, required: true },
+  paymentMethod: { type: String, required: true },
 }, {
-  timestamps: true,
-  createdAt: 'created_at',
-  updatedAt: false,
+  timestamps: { createdAt: 'created_at', updatedAt: false },
 });
 
-// Sync the Ticket model with the database
-sequelize.sync()
-  .then(() => {
-    console.log('Ticket model synced successfully.');
-  })
-  .catch(err => {
-    console.error('Error syncing the Ticket model:', err);
-  });
+const Ticket = mongoose.model('Ticket', ticketSchema);
 
 module.exports = Ticket;
